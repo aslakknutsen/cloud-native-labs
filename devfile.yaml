@@ -1,28 +1,6 @@
 schemaVersion: 2.0.0
 metadata:
   name: wksp-debugging
-workspace:
-  defaultEnv: default
-  environments:
-    default:
-      machines:
-        dev-machine:
-          attributes:
-            memoryLimitBytes: '4294967296'
-          servers: {}
-          volumes: {}
-          installers:
-          - org.eclipse.che.exec
-          - org.eclipse.che.terminal
-          - org.eclipse.che.ws-agent
-          - org.eclipse.che.ls.java
-          env:
-            MAVEN_OPTS: "-Xmx512m"
-            MAVEN_MIRROR_URL: http://nexus.opentlc-shared.svc:8081/repository/maven-all-public
-            OPENSHIFT_API_URL: https://api.cluster-3ea4.3ea4.events.opentlc.com
-      recipe:
-        type: dockerimage
-        content: image-registry.openshift-image-registry.svc:5000/openshift/che-cloud-native:ocp4
 projects:
 - name: labs
   zip:
@@ -41,6 +19,10 @@ commands:
       echo "Successful Connected to OpenShift as ${username}"
       echo "-----------"
     label: oc login
-    component: custom
+    component: tools
   attributes:
     goal: OpenShift
+components:
+- name: tools
+  container:
+    image: quay.io/aslakknutsen/workshop-tools:latest
